@@ -6,14 +6,14 @@ plugins {
 }
 
 android {
-    compileSdk 31
+    compileSdk 34
 
     defaultConfig {
         applicationId "xyz.mattjashworth.simplenotes"
         minSdk 21
-        targetSdk 31
-        versionCode 1
-        versionName "1.0"
+        targetSdk 35
+        versionCode 3
+        versionName "1.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -33,20 +33,20 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
-        useIR = true
     }
     buildFeatures {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion compose_version
-        kotlinCompilerVersion '1.5.21'
+        kotlinCompilerExtensionVersion '1.5.14'
+        kotlinCompilerVersion '1.9.24'
     }
     packagingOptions {
         resources {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
+    namespace 'xyz.mattjashworth.simplenotes'
 }
 
 dependencies {
@@ -66,8 +66,8 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
 
     // Compose dependencies
-    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0-beta01"
-    implementation "androidx.navigation:navigation-compose:2.4.0-alpha09"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1"
+    implementation "androidx.navigation:navigation-compose:2.5.3"
     implementation "androidx.compose.material:material-icons-extended:$compose_version"
     implementation "androidx.hilt:hilt-navigation-compose:1.0.0-alpha03"
 
@@ -76,9 +76,8 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.1'
 
     //Dagger - Hilt
-    implementation "com.google.dagger:hilt-android:2.38.1"
-    kapt "com.google.dagger:hilt-android-compiler:2.37"
-    implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"
+    implementation "com.google.dagger:hilt-android:2.51.1"
+    kapt "com.google.dagger:hilt-compiler:2.51.1"
     kapt "androidx.hilt:hilt-compiler:1.0.0"
 
     // Room
@@ -87,4 +86,7 @@ dependencies {
 
     // Kotlin Extensions and Coroutines support for Room
     implementation "androidx.room:room-ktx:2.3.0"
+
+    //Color Picker
+    implementation "io.mhssn:colorpicker:1.0.0"
 }

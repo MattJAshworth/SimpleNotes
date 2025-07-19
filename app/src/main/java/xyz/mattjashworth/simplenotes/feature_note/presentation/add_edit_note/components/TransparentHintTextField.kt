@@ -1,6 +1,7 @@
 package xyz.mattjashworth.simplenotes.feature_note.presentation.add_edit_note.components
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
@@ -27,18 +28,34 @@ fun TransparentHintTextField(
     Box(
         modifier = modifier
     ) {
-        BasicTextField(
-            value = text,
-            onValueChange = onValueChange,
-            singleLine = singleLine,
-            textStyle = textStyle,
-            keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
-            modifier = Modifier
-                .fillMaxWidth()
-                .onFocusChanged {
-                    onFocusChange(it)
-                }
-        )
+        if (!singleLine) {
+            BasicTextField(
+                value = text,
+                onValueChange = onValueChange,
+                singleLine = singleLine,
+                textStyle = textStyle,
+                keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight()
+                    .onFocusChanged {
+                        onFocusChange(it)
+                    }
+            )
+        } else {
+            BasicTextField(
+                value = text,
+                onValueChange = onValueChange,
+                singleLine = singleLine,
+                textStyle = textStyle,
+                keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .onFocusChanged {
+                        onFocusChange(it)
+                    }
+            )
+        }
         if(isHintVisible) {
             Text(text = hint, style = textStyle, color = Color.DarkGray)
         }

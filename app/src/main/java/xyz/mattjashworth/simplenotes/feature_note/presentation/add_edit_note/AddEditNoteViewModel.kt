@@ -10,9 +10,11 @@ import xyz.mattjashworth.simplenotes.feature_note.domain.model.InvalidNoteExcept
 import xyz.mattjashworth.simplenotes.feature_note.domain.model.Note
 import xyz.mattjashworth.simplenotes.feature_note.domain.use_case.NoteUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -42,11 +44,12 @@ class AddEditNoteViewModel @Inject constructor(
     init {
         savedStateHandle.get<Int>("noteId")?.let { noteId ->
             if(noteId != -1) {
-                viewModelScope.launch {
-                    noteUseCases.getNote(noteId)?.also { note ->
-                        currentNoteId = note.id
+                viewModelScope.launch(Dispatchers.IO) {
+                    val note = noteUseCases.getNote(noteId)
+                    withContext(Dispatchers.Main) {
+                        currentNoteId = note?.id
                         _noteTitle.value = noteTitle.value.copy(
-                            text = note.title,
+                            text = note?.title!!,
                             isHintVisible = false
                         )
                         _noteContent.value = _noteContent.value.copy(
@@ -88,7 +91,7 @@ class AddEditNoteViewModel @Inject constructor(
                 _noteColor.value = event.color
             }
             is AddEditNoteEvent.SaveNote -> {
-                viewModelScope.launch {
+                viewModelScope.launch(Dispatchers.IO) {
                     try {
                         noteUseCases.addNote(
                             Note(
